@@ -9,8 +9,7 @@ export const getSuggestion = async (q: string, page: number, limit: number) => {
     const res = await apiRequest.get(`${RESOURCE}?q=${q}&page=${page}&limit=${limit}`);
     return res;
   } catch (error) {
-    console.info(error)
-    throw new Error("[ERROR] API error.")
-
+    console.info(error);
+    throw new Error("[ERROR] API error.");
   }
-}
+};

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import styles from "./style/Suggestion.module.css";
+import SuggestionItem from "./SuggestionItem";
 
 const Suggestion = ({ list }: any) => {
   const [listData, setListData] = useState([]);
@@ -14,11 +15,7 @@ const Suggestion = ({ list }: any) => {
       {listData.length === 0 ? (
         <div>추천 검색어가 없습니다.</div>
       ) : (
-        listData.map((element: any, index: number) => (
-          <div className="" key={index}>
-            {element}
-          </div>
-        ))
+        listData.map((element: any, index: number) => <SuggestionItem key={index} item={element} />)
       )}
     </div>
   );

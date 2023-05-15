@@ -49,7 +49,6 @@ const InputTodo = ({ setTodos }) => {
     setInputText(e.target.value);
     if (e.target.value.trim() !== "") {
       const res = await getSuggestion(e.target.value);
-      console.info("res= ", res.data);
       setSuggestionList(res.data);
     }
   }, []);
@@ -74,7 +73,7 @@ const InputTodo = ({ setTodos }) => {
           <FaSpinner className="spinner" />
         )}
       </form>
-      {suggestionList ? <Suggestion list={suggestionList} /> : null}
+      {suggestionList.length !== 0 ? <Suggestion list={suggestionList} /> : null}
     </Fragment>
   );
 };
