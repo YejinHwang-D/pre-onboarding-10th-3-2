@@ -1,5 +1,5 @@
-import { useState, useCallback } from 'react';
-import { createTodo } from '../api/todo';
+import { useState, useCallback } from "react";
+import { createTodo } from "../api/todo";
 
 const useInput = (setTodos: any) => {
   const [inputText, setInputText] = useState("");
@@ -38,6 +38,6 @@ const useInput = (setTodos: any) => {
   );
 
   return { inputText, setInputText, isLoading, handleSubmit };
-}
+};
 
 export default useInput;

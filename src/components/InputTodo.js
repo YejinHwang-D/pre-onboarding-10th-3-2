@@ -16,13 +16,16 @@ const InputTodo = ({ setTodos }) => {
     setFocus();
   }, [setFocus]);
 
-  const handleChange = useCallback(async e => {
-    setInputText(e.target.value);
-    if (e.target.value.trim() !== "") {
-      const res = await getSuggestion(e.target.value);
-      setSuggestionList(res.data);
-    }
-  }, []);
+  const handleChange = useCallback(
+    async e => {
+      setInputText(e.target.value);
+      if (e.target.value.trim() !== "") {
+        const res = await getSuggestion(e.target.value);
+        setSuggestionList(res.data);
+      }
+    },
+    [setInputText]
+  );
 
   return (
     <Fragment>
