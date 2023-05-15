@@ -1,11 +1,15 @@
-import { FaPlusCircle, FaSpinner } from "react-icons/fa";
-import { useCallback, useEffect, useState } from "react";
+import { FaPlusCircle, FaSpinner, FaSearch } from "react-icons/fa";
+import { Fragment, useCallback, useEffect, useState } from "react";
+import styles from "./style/InputTodo.module.css";
 
 import { createTodo } from "../api/todo";
 import useFocus from "../hooks/useFocus";
+import Suggestion from "./Suggestion";
+import { getSuggestion } from "../api/suggestion";
 
 const InputTodo = ({ setTodos }) => {
   const [inputText, setInputText] = useState("");
+  const [suggestionList, setSuggestionList] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const { ref, setFocus } = useFocus();
 
@@ -14,7 +18,7 @@ const InputTodo = ({ setTodos }) => {
   }, [setFocus]);
 
   const handleSubmit = useCallback(
-    async (e) => {
+    async e => {
       try {
         e.preventDefault();
         setIsLoading(true);
@@ -28,7 +32,7 @@ const InputTodo = ({ setTodos }) => {
         const { data } = await createTodo(newItem);
 
         if (data) {
-          return setTodos((prev) => [...prev, data]);
+          return setTodos(prev => [...prev, data]);
         }
       } catch (error) {
         console.error(error);
@@ -38,27 +42,40 @@ const InputTodo = ({ setTodos }) => {
         setIsLoading(false);
       }
     },
-    [inputText, setTodos],
+    [inputText, setTodos]
   );
 
+  const handleChange = useCallback(async e => {
+    setInputText(e.target.value);
+    if (e.target.value.trim() !== "") {
+      const res = await getSuggestion(e.target.value);
+      console.info("res= ", res.data);
+      setSuggestionList(res.data);
+    }
+  }, []);
+
   return (
-    <form className="form-container" onSubmit={handleSubmit}>
-      <input
-        className="input-text"
-        placeholder="Add new todo..."
-        ref={ref}
-        value={inputText}
-        onChange={(e) => setInputText(e.target.value)}
-        disabled={isLoading}
-      />
-      {!isLoading ? (
-        <button className="input-submit" type="submit">
-          <FaPlusCircle className="btn-plus" />
-        </button>
-      ) : (
-        <FaSpinner className="spinner" />
-      )}
-    </form>
+    <Fragment>
+      <form className={styles.form_container} onSubmit={handleSubmit}>
+        <FaSearch className={styles.btn_search} />
+        <input
+          className={styles.input_text}
+          placeholder="Add new todo..."
+          ref={ref}
+          value={inputText}
+          onChange={handleChange}
+          disabled={isLoading}
+        />
+        {!isLoading ? (
+          <button className={styles.input_submit} type="submit">
+            <FaPlusCircle className={styles.btn_plus} />
+          </button>
+        ) : (
+          <FaSpinner className="spinner" />
+        )}
+      </form>
+      {suggestionList ? <Suggestion list={suggestionList} /> : null}
+    </Fragment>
   );
 };
 
