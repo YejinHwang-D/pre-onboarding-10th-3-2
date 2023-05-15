@@ -8,6 +8,7 @@ const Suggestion = ({ list, setInputText, handleSubmit }: any) => {
   useEffect(() => {
     setListData(list.result || []);
   }, [list]);
+  console.info(list);
 
   return (
     <div className={styles.container}>
@@ -17,6 +18,7 @@ const Suggestion = ({ list, setInputText, handleSubmit }: any) => {
         listData.map((element: any, index: number) => (
           <SuggestionItem
             key={index}
+            q={list.q}
             item={element}
             setInputText={setInputText}
             handleSubmit={handleSubmit}
