@@ -5,8 +5,11 @@ const useFocus = () => {
   const setFocus = () => {
     ref.current && ref.current.focus();
   };
+  const setBlur = () => {
+    ref.current && ref.current.blur();
+  };
 
-  return { ref, setFocus };
+  return { ref, setFocus, setBlur };
 };
 
 export default useFocus;

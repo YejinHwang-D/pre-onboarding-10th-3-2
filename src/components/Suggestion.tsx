@@ -2,9 +2,8 @@ import { useEffect, useState } from "react";
 import styles from "./style/Suggestion.module.css";
 import SuggestionItem from "./SuggestionItem";
 
-const Suggestion = ({ list }: any) => {
+const Suggestion = ({ list, setInputText, handleSubmit }: any) => {
   const [listData, setListData] = useState([]);
-  console.info(list);
 
   useEffect(() => {
     setListData(list.result || []);
@@ -15,7 +14,14 @@ const Suggestion = ({ list }: any) => {
       {listData.length === 0 ? (
         <div>추천 검색어가 없습니다.</div>
       ) : (
-        listData.map((element: any, index: number) => <SuggestionItem key={index} item={element} />)
+        listData.map((element: any, index: number) => (
+          <SuggestionItem
+            key={index}
+            item={element}
+            setInputText={setInputText}
+            handleSubmit={handleSubmit}
+          />
+        ))
       )}
     </div>
   );

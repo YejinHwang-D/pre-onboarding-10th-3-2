@@ -2,48 +2,19 @@ import { FaPlusCircle, FaSpinner, FaSearch } from "react-icons/fa";
 import { Fragment, useCallback, useEffect, useState } from "react";
 import styles from "./style/InputTodo.module.css";
 
-import { createTodo } from "../api/todo";
 import useFocus from "../hooks/useFocus";
 import Suggestion from "./Suggestion";
 import { getSuggestion } from "../api/suggestion";
+import useInput from "../hooks/useInput";
 
 const InputTodo = ({ setTodos }) => {
-  const [inputText, setInputText] = useState("");
   const [suggestionList, setSuggestionList] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
   const { ref, setFocus } = useFocus();
+  const { inputText, setInputText, isLoading, handleSubmit } = useInput(setTodos);
 
   useEffect(() => {
     setFocus();
   }, [setFocus]);
-
-  const handleSubmit = useCallback(
-    async e => {
-      try {
-        e.preventDefault();
-        setIsLoading(true);
-
-        const trimmed = inputText.trim();
-        if (!trimmed) {
-          return alert("Please write something");
-        }
-
-        const newItem = { title: trimmed };
-        const { data } = await createTodo(newItem);
-
-        if (data) {
-          return setTodos(prev => [...prev, data]);
-        }
-      } catch (error) {
-        console.error(error);
-        alert("Something went wrong.");
-      } finally {
-        setInputText("");
-        setIsLoading(false);
-      }
-    },
-    [inputText, setTodos]
-  );
 
   const handleChange = useCallback(async e => {
     setInputText(e.target.value);
@@ -73,7 +44,9 @@ const InputTodo = ({ setTodos }) => {
           <FaSpinner className="spinner" />
         )}
       </form>
-      {suggestionList.length !== 0 ? <Suggestion list={suggestionList} /> : null}
+      {suggestionList.length !== 0 ? (
+        <Suggestion list={suggestionList} setInputText={setInputText} handleSubmit={handleSubmit} />
+      ) : null}
     </Fragment>
   );
 };
