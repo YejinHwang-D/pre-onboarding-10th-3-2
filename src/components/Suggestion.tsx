@@ -18,13 +18,13 @@ const Suggestion = ({ list, setInputText, handleSubmit }: any) => {
     setListData(list.result || []);
   }, [list]);
 
-  const callback = (entries: any) => {
+  const callback = useCallback((entries: any) => {
     const temp = entries[0];
     if (!endRef.current && temp.isIntersecting && preventRef.current) {
       preventRef.current = false;
       setPage(prev => prev + 1);
     }
-  };
+  }, []);
 
   useEffect(() => {
     const observer = new IntersectionObserver(callback, { threshold: 1, root: rootRef.current });
