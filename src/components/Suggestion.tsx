@@ -17,10 +17,6 @@ const Suggestion = ({ list, setInputText, handleSubmit }: any) => {
     setListData(list.result || []);
   }, [list]);
 
-  useEffect(() => {
-    getList();
-  }, [page]);
-
   const callback = () => {
     if (endRef.current) return;
     setPage(prev => prev + 1);
@@ -40,6 +36,10 @@ const Suggestion = ({ list, setInputText, handleSubmit }: any) => {
       setLoad(false);
     }, DELAY);
   };
+
+  useEffect(() => {
+    getList();
+  }, [page, getList]);
 
   useEffect(() => {
     const observer = new IntersectionObserver(callback, { threshold: 1, root: rootRef.current });
