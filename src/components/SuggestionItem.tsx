@@ -5,7 +5,6 @@ const SuggestionItem = ({ item, setInputText, handleSubmit, q }: any) => {
   const text = item.length > TEXT_LENGTH ? item.slice(0, TEXT_LENGTH) + "..." : item;
 
   const handleClick = (e: any) => {
-    alert(e.target.textContent);
     setInputText("");
     handleSubmit(e);
   };

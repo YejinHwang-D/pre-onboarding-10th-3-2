@@ -6,6 +6,7 @@ import useFocus from "../hooks/useFocus";
 import Suggestion from "./Suggestion";
 import { getSuggestion } from "../api/suggestion";
 import useInput from "../hooks/useInput";
+import { DELAY } from "../constant/constant";
 
 const InputTodo = ({ setTodos }) => {
   const [suggestionList, setSuggestionList] = useState([]);
@@ -20,8 +21,10 @@ const InputTodo = ({ setTodos }) => {
     async e => {
       setInputText(e.target.value);
       if (e.target.value.trim() !== "") {
-        const res = await getSuggestion(e.target.value);
-        setSuggestionList(res.data);
+        setTimeout(async () => {
+          const res = await getSuggestion(e.target.value);
+          setSuggestionList(res.data);
+        }, DELAY);
       }
     },
     [setInputText]
