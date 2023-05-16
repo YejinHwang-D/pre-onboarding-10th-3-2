@@ -1,5 +1,5 @@
 import { FaSpinner, FaEllipsisH } from "react-icons/fa";
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useCallback } from "react";
 import styles from "./style/Suggestion.module.css";
 import SuggestionItem from "./SuggestionItem";
 import { getSuggestion } from "../api/suggestion";
@@ -22,7 +22,7 @@ const Suggestion = ({ list, setInputText, handleSubmit }: any) => {
     setPage(prev => prev + 1);
   };
 
-  const getList = () => {
+  const getList = useCallback(() => {
     setLoad(true);
     setTimeout(async () => {
       const res = await getSuggestion(list.q, page, undefined);
@@ -35,7 +35,7 @@ const Suggestion = ({ list, setInputText, handleSubmit }: any) => {
       }
       setLoad(false);
     }, DELAY);
-  };
+  }, [list]);
 
   useEffect(() => {
     getList();
