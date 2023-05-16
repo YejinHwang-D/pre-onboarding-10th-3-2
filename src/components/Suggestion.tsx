@@ -35,7 +35,7 @@ const Suggestion = ({ list, setInputText, handleSubmit }: any) => {
       }
       setLoad(false);
     }, DELAY);
-  }, [listData, page]);
+  }, [listData, page, list]);
 
   useEffect(() => {
     getList();
